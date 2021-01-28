@@ -33,8 +33,16 @@
     border: 1px solid rgb(182, 179, 179);
 }
 .todo__add-todo>.todo__add-button:hover,
-.todo__list>li>.todo__delete-todo:hover  {
+.todo__list>li>.todo__delete-todo:hover,
+.todo__delete-completed:hover  {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.todo__delete-completed{
+    width: 100%;
+    margin-top: 2%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(182, 179, 179);   
 }
 .todo__list {
     padding: 0;
@@ -56,3 +64,4 @@
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(182, 179, 179);   
 }
+

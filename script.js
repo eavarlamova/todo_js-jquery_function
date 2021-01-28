@@ -6,6 +6,7 @@ $(() => {
   const $todoAddInput = $('.todo__add-input');
   const $todoAddButton = $('.todo__add-button');
   const $todoList = $('.todo__list');
+  const $todoDeleteCompleted = $('.todo__delete-completed');
 
   let todos = [];
   const currentPage = 1;
@@ -87,13 +88,19 @@ $(() => {
 
   const deleteTodo = function () {
     const currentId = getParentId($(this));
-    todos = filterArray(currentId, 'id')
+    todos = filterArray(currentId, 'id');
     manageTodoApp();
   };
 
+  const deleteCompletedTodo = () => {
+    todos = filterArray();
+    manageTodoApp();
+  };
+  
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
   $todoCheckAllTodo.on('change', checkAllTodo);
+  $todoDeleteCompleted.on('click', deleteCompletedTodo);
   $todoList
     .on('change', '.todo__check-todo', checkTodo)
     .on('click', '.todo__delete-todo', deleteTodo);
