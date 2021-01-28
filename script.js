@@ -21,9 +21,17 @@ $(() => {
       .replace(/\u0027/gu, '&#x27;')
       .replace(/\u002F/gu, '&#x2F;')
   );
+  const normolizeCheckAll = (status = false) => {
+    $todoCheckAllTodo.prop('checked', status);
+  };
 
   const mapArray = (currentId, key, value, array = todos) => array
     .map((item) => (item.id === currentId ? { ...item, [key]: value } : item));
+
+  const filterArray = (value = false, key = 'status', array = todos) => array.filter((item) => item[key] !== value);
+
+  const getParentId = (currentThis) => Number(currentThis.parent().attr('id'));
+
 
   const render = (array = todos) => {
     const renderString = array.reduce((str, { text, status, id }) => (`
@@ -37,6 +45,19 @@ $(() => {
     $todoList.html(renderString);
   };
 
+  const manageTodoApp = () => {
+    const activeTodos = filterArray(true);
+    const completedTodos = filterArray(false);
+    // counter
+    // tab
+    // pag
+    // render
+    const currentStatusCheckAll = todos.length === completedTodos.length && todos.length;
+    normolizeCheckAll(currentStatusCheckAll);
+
+    render();
+  };
+
   const addTodo = () => {
     const newText = normolizeText($todoAddInput.val());
     if (newText) {
@@ -47,18 +68,26 @@ $(() => {
       };
       todos.push(newTodo);
       $todoAddInput.val('');
-      render();
+      manageTodoApp();
     }
   };
 
-  const getParentId = (currentThis) => Number(currentThis.parent().attr('id'));
   const checkTodo = function () {
     const currentId = getParentId($(this));
     const currentStatus = $(this).prop('checked');
     todos = mapArray(currentId, 'status', currentStatus);
+    manageTodoApp();
+  };
+
+  const checkAllTodo = function () {
+    const currentStatus = $(this).prop('checked');
+    todos = todos.map((item) => ({ ...item, status: currentStatus }));
+    manageTodoApp();
   };
 
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
+  $todoCheckAllTodo.on('change', checkAllTodo);
   $todoList.on('change', '.todo__check-todo', checkTodo);
+
 });
