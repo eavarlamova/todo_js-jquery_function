@@ -96,13 +96,34 @@ $(() => {
     todos = filterArray();
     manageTodoApp();
   };
-  
+
+  const showEditInput = function () {
+    $(this).replaceWith('<input class="todo__edit-todo"/>');
+    $('.todo__edit-todo')
+      .val($(this).text().trim())
+      .focus();
+  };
+
+  const saveEditTodo = function (event) {
+    if (event.key === ENTER) {
+      const currentId = getParentId($(this));
+      const newText = normolizeText($(this).val());
+      if (newText) {
+        todos = mapArray(currentId, 'text', newText);
+        manageTodoApp();
+      }
+    }
+  };
+
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
   $todoCheckAllTodo.on('change', checkAllTodo);
   $todoDeleteCompleted.on('click', deleteCompletedTodo);
   $todoList
     .on('change', '.todo__check-todo', checkTodo)
-    .on('click', '.todo__delete-todo', deleteTodo);
+    .on('click', '.todo__delete-todo', deleteTodo)
+    .on('dblclick', '.todo__text-todo', showEditInput)
+    .on('keypress', '.todo__edit-todo', saveEditTodo)
+    .on('blur', '.todo__edit-todo', manageTodoApp);
 
 });

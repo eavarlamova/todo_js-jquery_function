@@ -14,7 +14,8 @@
     display: flex;
     justify-content: space-between;
 }
-.todo__add-todo>.todo__add-input {
+.todo__add-todo>.todo__add-input,
+.todo__edit-todo {
     width: 80%;
     border-left: 0;
     border-right: 0;
@@ -23,7 +24,9 @@
 }
 
 .todo__add-todo>.todo__add-input:hover, 
-.todo__add-todo>.todo__add-input:focus {
+.todo__add-todo>.todo__add-input:focus,
+.todo__edit-todo:hover,
+.todo__edit-todo:focus {
     outline: rgb(255, 255, 255);
     border-bottom: 2px solid grey;
 }
