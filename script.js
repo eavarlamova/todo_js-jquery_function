@@ -28,7 +28,7 @@ $(() => {
   const mapArray = (currentId, key, value, array = todos) => array
     .map((item) => (item.id === currentId ? { ...item, [key]: value } : item));
 
-  const filterArray = (value = false, key = 'status', array = todos) => array.filter((item) => item[key] !== value);
+  const filterArray = (value = true, key = 'status', array = todos) => array.filter((item) => item[key] !== value);
 
   const getParentId = (currentThis) => Number(currentThis.parent().attr('id'));
 
@@ -85,9 +85,17 @@ $(() => {
     manageTodoApp();
   };
 
+  const deleteTodo = function () {
+    const currentId = getParentId($(this));
+    todos = filterArray(currentId, 'id')
+    manageTodoApp();
+  };
+
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
   $todoCheckAllTodo.on('change', checkAllTodo);
-  $todoList.on('change', '.todo__check-todo', checkTodo);
+  $todoList
+    .on('change', '.todo__check-todo', checkTodo)
+    .on('click', '.todo__delete-todo', deleteTodo);
 
 });
