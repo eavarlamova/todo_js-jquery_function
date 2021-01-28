@@ -1,0 +1,57 @@
+.todo {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.todo>h1 {
+    margin-bottom: -1%;
+}
+
+.todo__add-todo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.todo__add-todo>.todo__add-input {
+    width: 80%;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid rgb(102, 100, 100);
+}
+
+.todo__add-todo>.todo__add-input:hover, 
+.todo__add-todo>.todo__add-input:focus {
+    outline: rgb(255, 255, 255);
+    border-bottom: 2px solid grey;
+}
+.todo__add-todo>.todo__add-button {
+    width: 10%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(182, 179, 179);
+}
+.todo__add-todo>.todo__add-button:hover,
+.todo__list>li>.todo__delete-todo:hover  {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.todo__list {
+    padding: 0;
+    width: 100%;
+    display: flex;
+}
+.todo__list>li {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.todo__list>li>.todo__text-todo {
+    width: 85%;
+    justify-self: start;
+}
+
+.todo__list>li>.todo__delete-todo {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(182, 179, 179);   
+}
