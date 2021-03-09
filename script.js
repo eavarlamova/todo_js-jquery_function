@@ -9,9 +9,10 @@ $(() => {
   const $todoDeleteCompleted = $('.todo__delete-completed');
   const $todoCounter = $('.todo_counter');
   const $tabs = $('.tabs');
+  const $pages = $('.pages');
 
   let todos = [];
-  const currentPage = 1;
+  let currentPage = 1;
   let currentTab = 'all-tab';
 
   const normolizeText = (text) => (
@@ -31,6 +32,10 @@ $(() => {
   const normolizeCheckAll = (status = false) => {
     $todoCheckAllTodo.prop('checked', status);
   };
+  const normolizeCurrentPage = (lastPage) => {
+    currentPage = currentPage > lastPage ? lastPage : currentPage;
+    currentPage = currentPage < 1 ? 1 : currentPage;
+  };
 
   const mapArray = (currentId, key, value, array = todos) => array
     .map((item) => (item.id === currentId ? { ...item, [key]: value } : item));
@@ -39,6 +44,7 @@ $(() => {
 
   const getParentId = (currentThis) => Number(currentThis.parent().attr('id'));
 
+  const getLastPage = (currentTodos = todos) => Math.ceil(currentTodos.length / MAX_TODO);
   const render = (array = todos) => {
     const renderString = array.reduce((str, { text, status, id }) => (`
     ${str}
@@ -60,11 +66,31 @@ $(() => {
     $tabs.html(renderString);
   };
 
+  const renderPages = (currentTodos) => {
+    const maxPages = getLastPage(currentTodos);
+    normolizeCurrentPage(maxPages);
+    const renderString = Array.from({ length: maxPages }, (v, k) => k + 1)
+      .reduce((str, item) => `
+      ${str}
+      <li class='pages__page ${currentPage === item && 'pages__page_active'}'>${item}</li>
+      `, '');
+    $pages.html(renderString);
+  };
+
+  const getCurrentTodosForPage = (array) => {
+    const start = (currentPage - 1) * MAX_TODO;
+    const end = start + MAX_TODO;
+    return array.slice(start, end);
+  };
+
   const getCurrentRendersTodos = (activeTodos, completedTodos) => {
     let currentTodos = todos;
     if (currentTab !== 'all-tab') {
       currentTodos = currentTab === 'completed-tab' ? completedTodos : activeTodos;
     };
+    renderPages(currentTodos);
+// normolize page
+    currentTodos = getCurrentTodosForPage(currentTodos);
     render(currentTodos);
   };
 
@@ -74,7 +100,6 @@ $(() => {
     counterTodos(completedTodos.length);
     renderTabs();
     getCurrentRendersTodos(activeTodos, completedTodos);
-    // tab
     // pag
     // render
     const currentStatusCheckAll = todos.length === completedTodos.length && todos.length;
@@ -92,7 +117,8 @@ $(() => {
         id: Math.random(),
       };
       todos.push(newTodo);
-      currentTab = currentTab === 'completed-tab' ? 'all-tab' : currentTab;
+      currentTab = 'all-tab';
+      currentPage = getLastPage();
       $todoAddInput.val('');
       manageTodoApp();
     }
@@ -142,14 +168,21 @@ $(() => {
 
   const setCurrentTab = function () {
     currentTab = $(this).attr('id');
+    currentPage = 1;
     manageTodoApp();
   };
+
+  const setCurrentPage = function(){
+    currentPage = Number($(this).text());
+    manageTodoApp()
+  }
 
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
   $todoCheckAllTodo.on('change', checkAllTodo);
   $todoDeleteCompleted.on('click', deleteCompletedTodo);
   $tabs.on('click', '.tabs__button', setCurrentTab);
+  $pages.on('click', '.pages__page', setCurrentPage);
   $todoList
     .on('change', '.todo__check-todo', checkTodo)
     .on('click', '.todo__delete-todo', deleteTodo)

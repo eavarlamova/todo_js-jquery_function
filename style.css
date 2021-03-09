@@ -35,18 +35,21 @@
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(182, 179, 179);
 }
-.tabs__button {
+.tabs__button,
+.pages__page {
     background-color: rgb(182, 178, 178);
     border: 1px solid rgb(182, 179, 179);
 }
-.tabs__button_active {
+.tabs__button_active,
+.pages__page_active {
     background-color: rgb(255, 255, 255);
 }
 
 .todo__add-todo>.todo__add-button:hover,
 .todo__list>li>.todo__delete-todo:hover,
 .todo__delete-completed:hover,
-.tabs__button:hover  {
+.tabs__button:hover,
+.pages__page:hover  {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
@@ -83,3 +86,16 @@
     border: 1px solid rgb(182, 179, 179);   
 }
 
+.pages {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+.pages__page {
+    list-style: none;
+    min-width: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 0 1% ;
+}
