@@ -11,9 +11,11 @@ $(() => {
   const $todoCheckAllTodo = $('.todo__check-all-todo');
   const $todoDeleteCompleted = $('.todo__delete-completed');
 
-  let todos = [];
+  let todos = JSON.parse(localStorage.getItem('todos')) || [];
   let currentPage = 1;
   let currentTab = 'all-tab';
+
+  const setLocalStorage = () => localStorage.setItem('todos', JSON.stringify(todos));
 
   const normolizeText = (text) => (
     text
@@ -97,6 +99,7 @@ $(() => {
   };
 
   const manageTodoApp = () => {
+    setLocalStorage();
     const activeTodos = filterArray(true);
     const completedTodos = filterArray(false);
     counterTodos(completedTodos.length);
@@ -187,4 +190,5 @@ $(() => {
     .on('dblclick', '.todo__text-todo', showEditInput)
     .on('keypress', '.todo__edit-todo', saveEditTodo)
     .on('blur', '.todo__edit-todo', manageTodoApp);
+  $(document).ready(manageTodoApp);
 });
