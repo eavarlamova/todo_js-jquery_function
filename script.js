@@ -2,14 +2,14 @@ $(() => {
   const MAX_TODO = 5;
   const ENTER = 'Enter';
 
-  const $todoCheckAllTodo = $('.todo__check-all-todo');
-  const $todoAddInput = $('.todo__add-input');
-  const $todoAddButton = $('.todo__add-button');
-  const $todoList = $('.todo__list');
-  const $todoDeleteCompleted = $('.todo__delete-completed');
-  const $todoCounter = $('.todo_counter');
   const $tabs = $('.tabs');
   const $pages = $('.pages');
+  const $todoList = $('.todo__list');
+  const $todoCounter = $('.todo_counter');
+  const $todoAddInput = $('.todo__add-input');
+  const $todoAddButton = $('.todo__add-button');
+  const $todoCheckAllTodo = $('.todo__check-all-todo');
+  const $todoDeleteCompleted = $('.todo__delete-completed');
 
   let todos = [];
   let currentPage = 1;
@@ -29,9 +29,11 @@ $(() => {
   const counterTodos = (completedTodosLength) => {
     $todoCounter.html(`you done ${completedTodosLength}/${todos.length}`);
   };
+
   const normolizeCheckAll = (status = false) => {
     $todoCheckAllTodo.prop('checked', status);
   };
+
   const normolizeCurrentPage = (lastPage) => {
     currentPage = currentPage > lastPage ? lastPage : currentPage;
     currentPage = currentPage < 1 ? 1 : currentPage;
@@ -45,6 +47,7 @@ $(() => {
   const getParentId = (currentThis) => Number(currentThis.parent().attr('id'));
 
   const getLastPage = (currentTodos = todos) => Math.ceil(currentTodos.length / MAX_TODO);
+
   const render = (array = todos) => {
     const renderString = array.reduce((str, { text, status, id }) => (`
     ${str}
@@ -87,9 +90,8 @@ $(() => {
     let currentTodos = todos;
     if (currentTab !== 'all-tab') {
       currentTodos = currentTab === 'completed-tab' ? completedTodos : activeTodos;
-    };
+    }
     renderPages(currentTodos);
-// normolize page
     currentTodos = getCurrentTodosForPage(currentTodos);
     render(currentTodos);
   };
@@ -100,12 +102,8 @@ $(() => {
     counterTodos(completedTodos.length);
     renderTabs();
     getCurrentRendersTodos(activeTodos, completedTodos);
-    // pag
-    // render
     const currentStatusCheckAll = todos.length === completedTodos.length && todos.length;
     normolizeCheckAll(currentStatusCheckAll);
-
-    // render();
   };
 
   const addTodo = () => {
@@ -172,10 +170,10 @@ $(() => {
     manageTodoApp();
   };
 
-  const setCurrentPage = function(){
+  const setCurrentPage = function () {
     currentPage = Number($(this).text());
-    manageTodoApp()
-  }
+    manageTodoApp();
+  };
 
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
