@@ -7,6 +7,7 @@ $(() => {
   const $todoAddButton = $('.todo__add-button');
   const $todoList = $('.todo__list');
   const $todoDeleteCompleted = $('.todo__delete-completed');
+  const $todoCounter = $('.todo_counter');
 
   let todos = [];
   const currentPage = 1;
@@ -22,6 +23,10 @@ $(() => {
       .replace(/\u0027/gu, '&#x27;')
       .replace(/\u002F/gu, '&#x2F;')
   );
+
+  const counterTodos = (completedTodosLength) => {
+    $todoCounter.html(`you done ${completedTodosLength}/${todos.length}`);
+  };
   const normolizeCheckAll = (status = false) => {
     $todoCheckAllTodo.prop('checked', status);
   };
@@ -32,7 +37,6 @@ $(() => {
   const filterArray = (value = true, key = 'status', array = todos) => array.filter((item) => item[key] !== value);
 
   const getParentId = (currentThis) => Number(currentThis.parent().attr('id'));
-
 
   const render = (array = todos) => {
     const renderString = array.reduce((str, { text, status, id }) => (`
@@ -49,7 +53,7 @@ $(() => {
   const manageTodoApp = () => {
     const activeTodos = filterArray(true);
     const completedTodos = filterArray(false);
-    // counter
+    counterTodos(completedTodos.length);
     // tab
     // pag
     // render
