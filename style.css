@@ -61,6 +61,8 @@
 .todo__list>li>.todo__text-todo {
     width: 85%;
     justify-self: start;
+    overflow: hidden;
+    word-break: break-all;
 }
 
 .todo__list>li>.todo__delete-todo {

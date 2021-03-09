@@ -125,5 +125,4 @@ $(() => {
     .on('dblclick', '.todo__text-todo', showEditInput)
     .on('keypress', '.todo__edit-todo', saveEditTodo)
     .on('blur', '.todo__edit-todo', manageTodoApp);
-
 });
