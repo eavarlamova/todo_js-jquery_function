@@ -8,10 +8,11 @@ $(() => {
   const $todoList = $('.todo__list');
   const $todoDeleteCompleted = $('.todo__delete-completed');
   const $todoCounter = $('.todo_counter');
+  const $tabs = $('.tabs');
 
   let todos = [];
   const currentPage = 1;
-  const currentTab = 'all-tab';
+  let currentTab = 'all-tab';
 
   const normolizeText = (text) => (
     text
@@ -50,17 +51,36 @@ $(() => {
     $todoList.html(renderString);
   };
 
+  const renderTabs = () => {
+    const tabs = ['all', 'active', 'completed'];
+    const renderString = tabs.reduce((str, item) => (
+      `${str}
+      <button id="${item}-tab" class="tabs__button ${currentTab === `${item}-tab` && 'tabs__button_active'}">${item}</button>`
+    ), '');
+    $tabs.html(renderString);
+  };
+
+  const getCurrentRendersTodos = (activeTodos, completedTodos) => {
+    let currentTodos = todos;
+    if (currentTab !== 'all-tab') {
+      currentTodos = currentTab === 'completed-tab' ? completedTodos : activeTodos;
+    };
+    render(currentTodos);
+  };
+
   const manageTodoApp = () => {
     const activeTodos = filterArray(true);
     const completedTodos = filterArray(false);
     counterTodos(completedTodos.length);
+    renderTabs();
+    getCurrentRendersTodos(activeTodos, completedTodos);
     // tab
     // pag
     // render
     const currentStatusCheckAll = todos.length === completedTodos.length && todos.length;
     normolizeCheckAll(currentStatusCheckAll);
 
-    render();
+    // render();
   };
 
   const addTodo = () => {
@@ -72,6 +92,7 @@ $(() => {
         id: Math.random(),
       };
       todos.push(newTodo);
+      currentTab = currentTab === 'completed-tab' ? 'all-tab' : currentTab;
       $todoAddInput.val('');
       manageTodoApp();
     }
@@ -119,10 +140,16 @@ $(() => {
     }
   };
 
+  const setCurrentTab = function () {
+    currentTab = $(this).attr('id');
+    manageTodoApp();
+  };
+
   $todoAddButton.on('click', addTodo);
   $todoAddInput.on('keypress', (event) => { if (event.key === ENTER) addTodo(); });
   $todoCheckAllTodo.on('change', checkAllTodo);
   $todoDeleteCompleted.on('click', deleteCompletedTodo);
+  $tabs.on('click', '.tabs__button', setCurrentTab);
   $todoList
     .on('change', '.todo__check-todo', checkTodo)
     .on('click', '.todo__delete-todo', deleteTodo)

@@ -30,14 +30,23 @@
     outline: rgb(255, 255, 255);
     border-bottom: 2px solid grey;
 }
-.todo__add-todo>.todo__add-button {
+.todo__add-todo>.todo__add-button{
     width: 10%;
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(182, 179, 179);
 }
+.tabs__button {
+    background-color: rgb(182, 178, 178);
+    border: 1px solid rgb(182, 179, 179);
+}
+.tabs__button_active {
+    background-color: rgb(255, 255, 255);
+}
+
 .todo__add-todo>.todo__add-button:hover,
 .todo__list>li>.todo__delete-todo:hover,
-.todo__delete-completed:hover  {
+.todo__delete-completed:hover,
+.tabs__button:hover  {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
