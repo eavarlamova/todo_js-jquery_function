@@ -10,6 +10,7 @@
     <li> edit todo (dbl click) </li>
     <li> filter todos by tabs </li>
     <li> look a bit parts of todos (pagination) </li>
+    <li> count todos </li>
 </ul>
 
 ---
@@ -19,4 +20,3 @@
 npm i
 ```
 
----
