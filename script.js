@@ -51,7 +51,7 @@ $(() => {
   const getLastPage = (currentTodos = todos) => Math.ceil(currentTodos.length / MAX_TODO);
 
   const render = (array = todos) => {
-    const renderString = array.reduce((str, { text, status, id }) => (`
+    const stringForRender = array.reduce((str, { text, status, id }) => (`
     ${str}
     <li id="${id}">
       <input type="checkbox" class="todo__check-todo" ${status && 'checked'}/>
@@ -59,27 +59,27 @@ $(() => {
       <button class="todo__delete-todo"> x </button>
     </li>
     `), '');
-    $todoList.html(renderString);
+    $todoList.html(stringForRender);
   };
 
   const renderTabs = () => {
     const tabs = ['all', 'active', 'completed'];
-    const renderString = tabs.reduce((str, item) => (
+    const stringForRender = tabs.reduce((str, item) => (
       `${str}
       <button id="${item}-tab" class="tabs__button ${currentTab === `${item}-tab` && 'tabs__button_active'}">${item}</button>`
     ), '');
-    $tabs.html(renderString);
+    $tabs.html(stringForRender);
   };
 
   const renderPages = (currentTodos) => {
     const maxPages = getLastPage(currentTodos);
     normolizeCurrentPage(maxPages);
-    const renderString = Array.from({ length: maxPages }, (v, k) => k + 1)
+    const stringForRender = Array.from({ length: maxPages }, (v, k) => k + 1)
       .reduce((str, item) => `
       ${str}
       <li class='pages__page ${currentPage === item && 'pages__page_active'}'>${item}</li>
       `, '');
-    $pages.html(renderString);
+    $pages.html(stringForRender);
   };
 
   const getCurrentTodosForPage = (array) => {
